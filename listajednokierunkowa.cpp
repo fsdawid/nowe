@@ -2,114 +2,130 @@
 #include <string>
 using namespace std;
 
-struct node{
-    int val;
-    int val2;
-    int val3;
-    int val4;
-    int val5;
-    int val6;
-    node* next;
+
+void insert_end(int x);
+void display_forward();
+void insert_front(int x);
+void delete_front();
+void delete_end();
+struct node
+{
+int data;
+node *prev;
+node *next;
 };
+node *head = NULL, *tail = NULL;
 
-void push(node*&H, int x) //Dodawanie na pocz¹tek listy
+
+
+
+
+int main()
 {
+    insert_end(8);
+    insert_end(7);
+    insert_end(6);
+    insert_end(5);
+    insert_end(4);
+    insert_end(3);
+    display_forward();
+    cout << endl;
+    insert_front(1);
+    insert_front(2);
+    insert_front(3);
+    insert_front(4);
+    insert_front(5);
+    insert_front(6);
+    display_forward();
+    delete_front();
+    cout << endl;
+    display_forward();
+    cout << endl;
+    delete_end();
+    display_forward();
     
-    node* tmp = new node;
-    tmp-> val = x;    
-    tmp->next =H;
-    H = tmp;
-        
+    
+    
+    return 0;    
 }
 
-void pushLast(node*&H, int x) //Dodawanie na koniec listy
+
+void display_forward()//Przeglad listy
 {
-    
-    node* tmp = new node;
-    tmp-> val = x;    
- 
-    node* p = H;
-    while(p->next !=NULL)    
-        p = p->next;
-        p->next = tmp;
-        tmp->next = NULL;
-
-        
-}
-
-void pop(node*&H) //Usuniêcie z koñca listy
+node *temp;
+if(head==NULL)
+cout <<"No data inside\n";
+else
 {
-    
-    node* p =H;
-    if(p == NULL)
-        cout<<"Pusta lista"<<endl;
-    else if(p->next == NULL)
-    {
-         H = NULL;
-         delete p;
-    }   
-    else
-    {
-        while(p->next != NULL)
-        {
-            p = p->next;
-        }
-        node*s = H;
-            while(s ->next != p)
-            {
-                s = s ->next;    
-            }
-            s->next = p->next;
-            delete p;
-    }
-        
-}
-
-void popBeg(node*&H) //Usuniêcie z pocz¹tku listy
+temp = head;
+while(temp!=NULL)
 {
-    node*p =H;
-    H = H->next;
-    delete p;
+cout << temp->data << endl;
+temp = temp->next;
+}
+}
 }
 
-void show(node* H){
-    
- cout<<"H -> ";
- node*p =H;
- 
- while(p != NULL)
- {
-  cout<<p->val<<" -> ";
-  p = p->next;
-  
- }
- cout<<"NULL"<<endl;
-    
-}
 
-void push_x(node*H, int x, int po_ktorym) // Dodanie elementu na wskazan¹ pozycje
+
+
+void insert_end(int x)//Dodawanie na koniec
 {
-    node* tmp = new node;
-    tmp->val = x;
-    node* p = H;
-    while(p->val != po_ktorym)
-        p = p->next;
-    tmp ->next = p->next;
-    p->next = tmp;
+node* temp = new node;
+temp->data = x;
+temp->next = NULL;
+temp->prev = NULL;
+if (head == NULL)
+head = tail = temp;
+else {
+tail->next = temp;
+temp->prev = tail;
+tail = temp;
+}
+}
+
+void insert_front(int x)//Dodawanie na pocz¹tek
+{
+node* temp = new node;
+temp->data = x;
+temp->next = NULL;
+temp->prev = NULL;
+if (head == NULL)
+head = tail = temp;
+else
+{
+temp->next = head;
+head->prev = temp;
+head = temp;
+}
 }
 
 
-int main(){
-    
-    node* H = NULL;    
-    push(H, 1);
-    push(H, 2);
-    push(H, 3);
-    show(H);
-    push_x(H,4,2);
-    show(H);
-    
+void delete_front()//Usuwanie z pocz¹tku
+{
+node *temp;
+if(head==NULL)
+cout <<"No data inside\n";
+else
+{
+temp = head;
+head = head->next;
+head->prev = NULL;
+delete temp;
+}
+}
 
-    return 0;
 
+
+void delete_end()//Usuniêcie z koñca
+{
+node *temp;
+if(tail==NULL)
+cout <<"No data inside\n";
+else
+{
+temp = tail;
+tail = tail->prev;
+tail->next = NULL;
+delete temp;
 }
