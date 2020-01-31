@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: pracazaliczeniowa.com.samochodybaza.SamochodybazaApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.189 s - in pracazaliczeniowa.com.samochodybaza.SamochodybazaApplicationTests
