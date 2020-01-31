@@ -1,0 +1,10 @@
+C:\Users\dawid\Desktop\warcabynew\warcaby dawid grabowski\bin\Debug\warcaby dawid grabowski.exe.config
+C:\Users\dawid\Desktop\warcabynew\warcaby dawid grabowski\bin\Debug\warcaby dawid grabowski.exe
+C:\Users\dawid\Desktop\warcabynew\warcaby dawid grabowski\bin\Debug\warcaby dawid grabowski.pdb
+C:\Users\dawid\Desktop\warcabynew\warcaby dawid grabowski\obj\Debug\warcaby dawid grabowski.csprojAssemblyReference.cache
+C:\Users\dawid\Desktop\warcabynew\warcaby dawid grabowski\obj\Debug\warcaby_dawid_grabowski.Form1.resources
+C:\Users\dawid\Desktop\warcabynew\warcaby dawid grabowski\obj\Debug\warcaby_dawid_grabowski.Properties.Resources.resources
+C:\Users\dawid\Desktop\warcabynew\warcaby dawid grabowski\obj\Debug\warcaby dawid grabowski.csproj.GenerateResource.cache
+C:\Users\dawid\Desktop\warcabynew\warcaby dawid grabowski\obj\Debug\warcaby dawid grabowski.csproj.CoreCompileInputs.cache
+C:\Users\dawid\Desktop\warcabynew\warcaby dawid grabowski\obj\Debug\warcaby dawid grabowski.exe
+C:\Users\dawid\Desktop\warcabynew\warcaby dawid grabowski\obj\Debug\warcaby dawid grabowski.pdb
