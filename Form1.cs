@@ -1,123 +1,236 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace warcaby_dawid_grabowski
 {
     public partial class Form1 : Form
     {
-        int turno = 0;
-        bool movExtra = false;
-        PictureBox seleccionado = null;
-        List<PictureBox> azules = new List<PictureBox>();
-        List<PictureBox> rojas = new List<PictureBox>();
+        int przesuniecie = 0;
+        bool ruchExtra = false;
+        PictureBox wybory = null;
+        List<PictureBox> niebieski = new List<PictureBox>();
+        List<PictureBox> czerwony = new List<PictureBox>();
         public Form1()
         {
             InitializeComponent();
-            cargarListas();
+            listapionkow();
         }
 
-        private void cargarListas()
+        private void listapionkow()
         {
-            azules.Add(azul1);
-            azules.Add(azul2);
-            azules.Add(azul3);
-            azules.Add(azul4);
-            azules.Add(azul5);
-            azules.Add(azul6);
-            azules.Add(azul7);
-            azules.Add(azul8);
-            azules.Add(azul9);
-            azules.Add(azul10);
-            azules.Add(azul11);
-            azules.Add(azul12);
+            niebieski.Add(niebieski1);
+            niebieski.Add(niebieski2);
+            niebieski.Add(niebieski3);
+            niebieski.Add(niebieski4);
+            niebieski.Add(niebieski5);
+            niebieski.Add(niebieski6);
+            niebieski.Add(niebieski7);
+            niebieski.Add(niebieski8);
+            niebieski.Add(niebieski9);
+            niebieski.Add(niebieski10);
+            niebieski.Add(niebieski11);
+            niebieski.Add(niebieski12);
 
-            rojas.Add(roja1);
-            rojas.Add(roja2);
-            rojas.Add(roja3);
-            rojas.Add(roja4);
-            rojas.Add(roja5);
-            rojas.Add(roja6);
-            rojas.Add(roja7);
-            rojas.Add(roja8);
-            rojas.Add(roja9);
-            rojas.Add(roja10);
-            rojas.Add(roja11);
-            rojas.Add(roja12);
-  
+            czerwony.Add(czerwony1);
+            czerwony.Add(czerwony2);
+            czerwony.Add(czerwony3);
+            czerwony.Add(czerwony4);
+            czerwony.Add(czerwony5);
+            czerwony.Add(czerwony6);
+            czerwony.Add(czerwony7);
+            czerwony.Add(czerwony8);
+            czerwony.Add(czerwony9);
+            czerwony.Add(czerwony10);
+            czerwony.Add(czerwony11);
+            czerwony.Add(czerwony12);
+
         }
 
-        public void seleccion(object objeto)
+        public void wybor(object objekt)
         {
-            try { seleccionado.BackColor = Color.Black; }
+            try { wybory.BackColor = Color.Black; }
             catch { }
-            PictureBox ficha = (PictureBox)objeto;
-            seleccionado = ficha;
-            seleccionado.BackColor = Color.Lime;
+            PictureBox tab = (PictureBox)objekt;
+            wybory = tab;
+            wybory.BackColor = Color.Yellow;
         }
 
-        private void cuadroClick(object sender, MouseEventArgs e)
+        private void poleClick(object sender, MouseEventArgs e)
         {
-            movimiento((PictureBox)sender);
+            ruch((PictureBox)sender);
         }
-
-        private void movimiento(PictureBox cuadro)
+        private void wyborniebieskich(object sender, MouseEventArgs e)
         {
-            if (seleccionado != null)
+            if (przesuniecie % 2 == 1)
             {
-                if (true)
-                {
-                    string color = seleccionado.Name.ToString().Substring(0, 4);
-                    Point anterior = seleccionado.Location;
-                    seleccionado.Location = cuadro.Location;
-                    int avance = anterior.Y - cuadro.Location.Y;
 
-                    if (true)
+                wybor(sender);
+            }
+            else { MessageBox.Show("kolej na czerwony"); }
+        }
+
+        private void wyborczerwonych(object sender, MouseEventArgs e)
+        {
+            if (przesuniecie % 2 == 0)
+            {
+                wybor(sender);
+            }
+            else
+            {
+                MessageBox.Show("kolej na niebieski");
+            }
+        }
+
+            private void ruch(PictureBox pole)
+        {
+            if (wybory != null)
+            {
+                string color = wybory.Name.ToString().Contains("niebieski") ? "niebieski" : "czerwony";
+
+                if (walidacja(wybory, pole, color))
+                {
+
+                    Point poprzedni = wybory.Location;
+                    wybory.Location = pole.Location;
+                    int gora = poprzedni.Y - pole.Location.Y;
+
+                    if (!ruchyExtra(color) | Math.Abs(gora) == 50)
                     {
                         ifqueen(color);
-                        turno++;
-                        seleccionado.BackColor = Color.Black;
-                        seleccionado = null;
-                        movExtra = false;
+                        przesuniecie++;
+                        wybory.BackColor = Color.Black;
+                        wybory = null;
+                        ruchExtra = false;
 
                     }
                     else
                     {
-                        movExtra = true;
+                        ruchExtra = true;
                     }
                 }
             }
+        } 
+
+        private bool ruchyExtra(string color)
+        {
+            List<PictureBox> tablicazboku = color == "czerwony" ? niebieski : czerwony;
+            List<Point> pozycje = new List<Point>();
+            int nowapozycja = color == "czerwony" ? -100 : 100;
+            pozycje.Add(new Point(wybory.Location.X + 100, wybory.Location.Y + nowapozycja));
+            pozycje.Add(new Point(wybory.Location.X - 100, wybory.Location.Y + nowapozycja));
+            if (wybory.Tag == "queen")
+            {
+                pozycje.Add(new Point(wybory.Location.X + 100, wybory.Location.Y - nowapozycja));
+                pozycje.Add(new Point(wybory.Location.X - 100, wybory.Location.Y - nowapozycja));
+            }
+
+            bool rezultaty = false;
+            for (int i = 0; i < pozycje.Count; i++)
+            {
+                if (pozycje[i].X >= 50 && pozycje[i].X <= 400 && pozycje[i].Y >= 50 && pozycje[i].Y <= 400)
+                {
+                    if (!zajety(pozycje[i], czerwony) && !zajety(pozycje[i], niebieski))
+                    {
+                        Point punktsrodek = new Point(srednia(pozycje[i].X, wybory.Location.X), srednia(pozycje[i].Y, wybory.Location.Y));
+                        if (zajety(punktsrodek, tablicazboku))
+                        {
+                            rezultaty = true;
+
+                        }
+                    }
+                }
+            }
+            return rezultaty;
         }
+
+        private bool zajety(Point punkt, List<PictureBox> bok)
+        {
+            for (int i = 0; i < bok.Count; i++)
+            {
+                if (punkt == bok[i].Location)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private int srednia(int n1, int n2)
+        {
+            int rezultaty = n1 + n2;
+            rezultaty = rezultaty / 2;
+            return Math.Abs(rezultaty);
+        }
+
+        private bool walidacja(PictureBox poczatek, PictureBox cel, string color)
+        {
+            Point punktpoczatek = poczatek.Location;
+            Point punktcel = cel.Location;
+            int gora = punktpoczatek.Y - punktcel.Y;
+            gora = color == "czerwony" ? gora : (gora * -1);
+            gora = wybory.Tag == "queen" ? Math.Abs(gora) : gora;
+            if (gora == 50)
+            {
+                return true;
+            }
+            else if (gora == 100)
+            {
+                Point punktsrodek = new Point(srednia(punktcel.X, punktpoczatek.X), srednia(punktcel.Y, punktpoczatek.Y));
+                List<PictureBox> tablicazboku = color == "czerwony" ? niebieski : czerwony;
+                for (int i = 0; i < tablicazboku.Count; i++)
+                {
+                    if (tablicazboku[i].Location == punktsrodek)
+                    {
+                        tablicazboku[i].Location = new Point(0, 0);
+                        tablicazboku[i].Visible = false;
+                        return true;
+                    }
+                }
+
+
+            }
+            return false; 
+           
+        
+
+
+        }
+
+
 
         private void ifqueen(string color)
         {
-            if(color=="azul" && seleccionado.Location.Y == 400)
+            if (color == "niebieski" && wybory.Location.Y == 400)
             {
-                seleccionado.BackgroundImage = Properties.Resources.Bez_nazwy_2kpng;
-                seleccionado.Tag = "queen";
+               
+                wybory.BackgroundImage = Properties.Resources.krolowaniebjpg;
+                wybory.Tag = "queen";
             }
-            else if (color == "roja" && seleccionado.Location.Y == 50)
+            else if (color == "czerwony" && wybory.Location.Y == 50)
             {
-                seleccionado.BackgroundImage = Properties.Resources.Bez_nazwy_1k;
-                seleccionado.Tag = "queen";
+                
+                wybory.BackgroundImage = Properties.Resources.krolowaczerjpg;
+                wybory.Tag = "queen";
             }
-
+            
         }
 
-        private void seleccionAzul(object sender, MouseEventArgs e)
+        private void wyborniebieski(object sender, MouseEventArgs e)
         {
-            seleccion(sender);
+            wybor(sender);
         }
 
-        private void seleccionRoja(object sender, MouseEventArgs e)
+        private void wyborczerwony(object sender, MouseEventArgs e)
         {
-            seleccion(sender);
+            wybor(sender);
         }
+
+        
+
+        
     }
 }
+
+
